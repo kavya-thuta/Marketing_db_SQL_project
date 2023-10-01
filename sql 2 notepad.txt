@@ -1,0 +1,43 @@
+
+
+Q1) Calculate ROMI for instagram_blogger campaign between 15th Feb to 25th Feb
+
+A)  SELECT ( ( Sum(revenue) - Sum(mark_spent) ) / Sum(mark_spent) )
+    FROM   `marketing`
+    WHERE  campaign_name = "instagram_blogger"
+            AND c_date >= '2021-02-15'
+            AND c_date <= '2021-02-25'  
+
+Q2) Find out the average revenue spent on weekend(Saturday and Sunday)
+
+A)  SELECT Avg(revenue)
+    FROM   `marketing`
+    WHERE  Dayname(c_date) IN ( "sunday", "saturday" )
+
+Q3) Find out the average revenue spent on weekdays(Monday to Friday) with NOT IN
+
+A)  SELECT Avg(revenue)
+    FROM   `marketing`
+    WHERE  Dayname(c_date) NOT IN ( "sunday", "saturday" )
+
+Q4) Which campaign showed the worst loss in a single day? By loss we mean negative gross profit (revenue - marketing spending). Enter campaign ID.
+
+A)  SELECT campaign_name,
+           campaign_id,
+           mark_spent,
+           impressions,
+           c_date,
+           leads,
+           revenue - mark_spent AS gross_profit
+    FROM   `marketing`
+    ORDER  BY gross_profit,
+              impressions DESC; 
+
+Q5) How much total money we spent on Facebook on campaigns with negative ROMI.
+    Note: Use LOCATE function to find the substring in the string.
+
+A)  SELECT Sum(mark_spent)
+    FROM   `marketing`
+    WHERE  ( revenue - mark_spent ) / mark_spent < 0
+          AND Locate('facebook', campaign_name) 
+
